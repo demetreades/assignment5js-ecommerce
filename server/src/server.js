@@ -1,8 +1,14 @@
+'use strict';
+
 require('dotenv').config({ path: 'server/src/config/.env' });
 const http = require('http');
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+// const fileUpload = require('express-fileupload');
+const helmet = require('helmet');
+const cors = require('cors');
 const databaseConnection = require('./config/database/connection');
 const { logger, handleError, handleNotFound, handleExit } = require('./utils');
 
@@ -11,15 +17,22 @@ const routes = require('./routes'); // routes/api/
 databaseConnection();
 
 // bodyParser ?? express.json
-// cookieParser
 // pino/morgan log.file
 // fileupload
-// cors
-// helmet
 // xss
 // hpp : http param pollution
 // limiter : rate limiting
 // mongo data sanitize
+
+// const baseUrl =
+//   process.env.NODE_ENV === 'production'
+//     ? 'https://mymainurl.com'
+//     : 'http://localhost:3000';
+
+const corsOptions = {
+  origin: 'http://localhost:5000/',
+  optionsSuccessStatus: 200,
+};
 
 const app = express();
 
@@ -35,8 +48,23 @@ if (process.env.NODE_ENV === 'development') {
   });
 }
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+// app.use(
+//   fileUpload({
+//     useTempFiles: true,
+//   })
+// );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // application/x-www-form-urlencoded
+app.use(cookieParser());
+app.use(cors(corsOptions));
+app.use(helmet());
 
 app.use(routes, handleNotFound);
 
