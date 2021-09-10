@@ -9,23 +9,15 @@ const { Product } = require('../../../models');
  * @access  Private/Admin
  */
 const createProduct = asyncHandler(async (req, res) => {
-  const product = new Product({
-    name: 'Sample name',
-    price: 0,
-    user: req.user._id,
-    image: '/images/sample.jpg',
-    brand: 'Sample brand',
-    category: 'Sample category',
-    countInStock: 0,
-    numReviews: 0,
-    description: 'Sample description',
-  });
+  const newProduct = await Product.create(req.body);
 
-  const createdProduct = await product.save();
-  logger.info(
-    `PRODUCT: ${createdProduct.name}, id: ${createdProduct._id} CREATED !!`
-  );
-  res.status(201).json(createdProduct);
+  logger.info(`NEW PRODUCT: ${newProduct.name}, id: ${newProduct._id} CREATED`);
+
+  res.status(201).json({
+    success: true,
+    message: 'new product created',
+    data: newProduct, // 201 giati einai resource
+  });
 });
 
 module.exports = createProduct;
