@@ -11,14 +11,20 @@ const { Product } = require('../../../models');
 const getProductById = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
-  if (product) {
-    logger.info(
-      `GET PRODUCT: ${product.name}, ID: ${product._id}, CATEGORY: ${product.category}, DESC: ${product.description}`
+  if (!product) {
+    return next(
+      new BaseError(404, `Product with id: ${req.params.id} not found`)
     );
-    res.json(product);
-  } else {
-    return next(new BaseError(404, 'Product not found'));
   }
+
+  logger.info(
+    `GET PRODUCT: ${product.name}, ID: ${product._id}, CATEGORY: ${product.category}, DESC: ${product.description}`
+  );
+
+  res.status(200).json({
+    success: true,
+    data: product,
+  });
 });
 
 module.exports = getProductById;
