@@ -23,20 +23,24 @@ const registerUser = asyncHandler(async (req, res, next) => {
     password,
   });
 
-  if (user) {
-    logger.info(
-      `USER CREATED: { id: ${user._id}, name: ${user.name}, email: ${user.email}, admin: ${user.isAdmin} }`
-    );
-    res.status(201).json({
+  if (!user) {
+    return next(new BaseError(400, 'Invalid user data'));
+  }
+
+  logger.info(
+    `USER CREATED with id: ${user._id}, name: ${user.name}, email: ${user.email}, admin: ${user.isAdmin}`
+  );
+  res.status(201).json({
+    success: true,
+    message: 'User created',
+    data: {
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
-    });
-  } else {
-    return next(new BaseError(400, 'Invalid user data'));
-  }
+    },
+  });
 });
 
 module.exports = registerUser;
