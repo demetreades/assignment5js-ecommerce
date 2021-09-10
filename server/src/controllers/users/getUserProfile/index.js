@@ -11,19 +11,20 @@ const { User } = require('../../../models/');
 const getUserProfile = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user._id);
 
-  if (user) {
-    logger.info(
-      `USER PROFILE: ${user.name} id: ${user._id}, admin: ${user.isAdmin}`
-    );
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-    });
-  } else {
-    return next(new BaseError(404, 'User not found'));
+  if (!user) {
+    return next(new BaseError(404, `User with id: ${req.params.id} not found`));
   }
+
+  logger.info(
+    `USER PROFILE: ${user.name} id: ${user._id}, admin: ${user.isAdmin}`
+  );
+
+  res.json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    isAdmin: user.isAdmin,
+  });
 });
 
 module.exports = getUserProfile;
