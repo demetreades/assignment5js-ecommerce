@@ -12,7 +12,10 @@ const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({});
 
   logger.info(`GET ALL ${products.length} PRODUCTS`);
-  res.json(products);
+  res.json({
+    total: products.length,
+    products,
+  });
 });
 
 module.exports = getProducts;
