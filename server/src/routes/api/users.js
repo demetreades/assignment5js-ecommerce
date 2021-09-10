@@ -4,14 +4,23 @@ const {
   authUser,
   registerUser,
   getUserProfile,
+  getUsers,
+  deleteUser,
+  updateUser
 } = require('../../controllers/users');
 
 router
   .route('/')
-  .post(registerUser);
+  .get(protect, admin, getUsers)
+  .post(registerUser)
+  .delete(protect, admin, deleteUser);
 
 router
   .post('/login', authUser);
+
+router
+  .route('/profile/:id')
+  .put(protect, updateUser);
 
 router
   .route('/profile')
