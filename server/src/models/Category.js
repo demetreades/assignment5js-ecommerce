@@ -26,11 +26,6 @@ const categorySchema = new mongoose.Schema(
         ref: 'Product',
       },
     ],
-    updated: Date,
-    created: {
-      type: Date,
-      default: Date.now,
-    },
   },
   {
     timestamps: true,
