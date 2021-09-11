@@ -1,4 +1,4 @@
-// const { StatusCodes } = require('http-status-codes');
+const { CREATED } = require('http-status-codes');
 const asyncHandler = require('express-async-handler');
 const { logger } = require('../../../utils');
 const { Product } = require('../../../models');
@@ -13,10 +13,10 @@ const createProduct = asyncHandler(async (req, res) => {
 
   logger.info(`NEW PRODUCT: ${newProduct.name}, id: ${newProduct._id} CREATED`);
 
-  res.status(201).json({
+  res.status(CREATED).json({
     success: true,
     message: 'new product created',
-    data: newProduct, // 201 giati einai resource
+    newProduct, // 201 giati einai resource
   });
 });
 

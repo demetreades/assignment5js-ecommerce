@@ -9,12 +9,11 @@ const { Product } = require('../../../models');
  * @access  Private/Admin
  */
 const deleteProduct = asyncHandler(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+  const { product_id } = req.params;
+  const product = await Product.findById(product_id);
 
   if (!product) {
-    return next(
-      new BaseError(404, `Product with id: ${req.params.id} not found`)
-    );
+    return next(new BaseError(404, `Product with id: ${product_id} not found`));
   }
 
   logger.info(`PRODUCT: ${product.name} ${product._id} DELETED!`);
@@ -22,7 +21,7 @@ const deleteProduct = asyncHandler(async (req, res, next) => {
 
   res.json({
     success: true,
-    message: `Product with id: ${req.params.id} removed`,
+    message: `Product with id: ${product_id} removed`,
     data: {},
   });
 });

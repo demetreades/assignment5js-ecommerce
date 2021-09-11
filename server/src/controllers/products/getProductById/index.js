@@ -9,21 +9,20 @@ const { Product } = require('../../../models');
  * @access       Public
  */
 const getProductById = asyncHandler(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+  const { product_id } = req.params;
+  const fetchProduct = await Product.findById(product_id);
 
-  if (!product) {
-    return next(
-      new BaseError(404, `Product with id: ${req.params.id} not found`)
-    );
+  if (!fetchProduct) {
+    return next(new BaseError(404, `Product with id: ${product_id} not found`));
   }
 
   logger.info(
-    `GET PRODUCT: ${product.name}, ID: ${product._id}, CATEGORY: ${product.category}, DESC: ${product.description}`
+    `GET Product: ${fetchProduct.name}, ID: ${fetchProduct._id}, CATEGORY: ${fetchProduct.category}, DESC: ${fetchProduct.description}`
   );
 
   res.status(200).json({
     success: true,
-    data: product,
+    fetchProduct,
   });
 });
 

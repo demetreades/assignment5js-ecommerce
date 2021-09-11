@@ -9,22 +9,21 @@ const { Product } = require('../../../models');
  * @access  Private/Admin
  */
 const updateProduct = asyncHandler(async (req, res, next) => {
-  const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+  const { product_id } = req.params;
+  const product = await Product.findByIdAndUpdate(product_id, req.body, {
     new: true,
     runValidators: true,
   });
 
   if (!product) {
-    return next(
-      new BaseError(404, `Product with id: ${req.params.id} not found`)
-    );
+    return next(new BaseError(404, `Product with id: ${product_id} not found`));
   }
 
   logger.info(`PRODUCT: ${product.name}, ID: ${product._id} UPDATED`);
 
   res.status(200).json({
     success: true,
-    data: product,
+    product,
   });
 });
 
