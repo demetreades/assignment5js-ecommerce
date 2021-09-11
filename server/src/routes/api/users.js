@@ -19,7 +19,7 @@ router
   .post('/login', authUser);
 
 router
-  .route('/profile/:id')
+  .route('/profile/:user_id')
   .put(protect, updateUser);
 
 router
