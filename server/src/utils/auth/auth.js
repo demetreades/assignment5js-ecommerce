@@ -7,24 +7,20 @@ const protect = asyncHandler(async (req, res, next) => {
   // eslint-disable-next-line init-declarations
   let token;
 
+  if (!token) {
+    return next(new BaseError(401, 'Not authorized, no token'));
+  }
+
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
-    try {
-      token = req.headers.authorization.split(' ')[1];
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-      req.user = await User.findById(decodedToken.id).select('-password');
+    req.user = await User.findById(decodedToken.id).select('-password');
 
-      next();
-    } catch (err) {
-      return next(new BaseError(401, 'Not Authorized, token failed'));
-    }
-  }
-
-  if (!token) {
-    return next(new BaseError(401, 'Not authorized, no token'));
+    next();
   }
 });
 
