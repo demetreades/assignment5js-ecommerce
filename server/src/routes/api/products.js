@@ -14,10 +14,9 @@ router
   .post(protect, createProduct);
 
 router
-  .route('/:id')
+  .route('/:product_id')
   .get(getProductById)
   .put(protect, admin, updateProduct)
   .delete(protect, admin, deleteProduct);
-//   .put(protect, admin, updateProduct);
 
 module.exports = router;
