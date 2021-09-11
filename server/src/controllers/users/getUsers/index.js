@@ -12,7 +12,10 @@ const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
 
   logger.info(`GET ALL ${users.length} USERS`);
-  res.json(users);
+  res.json({
+    total: users.length,
+    users,
+  });
 });
 
 module.exports = getUsers;

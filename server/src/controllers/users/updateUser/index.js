@@ -9,13 +9,14 @@ const { User } = require('../../../models');
  * @access  Private/Admin
  */
 const createUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+  const { user_id } = req.params;
+  const user = await User.findByIdAndUpdate(user_id, req.body, {
     new: true,
     runValidators: true,
   });
 
   if (!user) {
-    return next(new BaseError(404, `User with id: ${req.params.id} not found`));
+    return next(new BaseError(404, `User with id: ${user_id} not found`));
   }
 
   logger.info(`USER with name: ${user.name}, email: ${user.email} UPDATED`);
