@@ -7,6 +7,7 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:import/recommended",
     "plugin:node/recommended",
     "plugin:react/recommended",
     "plugin:security/recommended",
@@ -22,7 +23,8 @@
   "settings": {
     "react": {
       "version": "latest"
-    }
+    },
+    "import/extensions": [".js", ".jsx"]
   },
   "rules": {
     "indent": [2, 2],
