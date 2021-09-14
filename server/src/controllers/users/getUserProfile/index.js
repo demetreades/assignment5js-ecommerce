@@ -9,11 +9,10 @@ const { User } = require('../../../models/');
  * @access       Private
  */
 const getUserProfile = asyncHandler(async (req, res, next) => {
-  const { user_id } = req.params;
-  const user = await User.findById(user_id);
+  const user = await User.findById(req.user.id);
 
   if (!user) {
-    return next(new BaseError(404, `User with id: ${user_id} not found`));
+    return next(new BaseError(404, `User with id: ${req.user.id} not found`));
   }
 
   logger.info(
