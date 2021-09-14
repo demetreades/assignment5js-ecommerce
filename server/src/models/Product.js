@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const handleSlugs = require('./utils/slugify');
 
 const productSchema = mongoose.Schema(
   {
@@ -9,16 +10,22 @@ const productSchema = mongoose.Schema(
     },
     name: {
       type: String,
-      require: [true, 'Please add name'],
+      require: [true, 'Please add a name'],
     },
+    slug: String,
     image: {
       type: String,
-      require: true,
+      default: '/kapio/default',
     },
     category: {
       type: String,
-      require: true,
+      required: true,
     },
+    // category: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   required: true,
+    //   ref: 'Category',
+    // },
     brand: {
       type: String,
       require: true,
@@ -51,6 +58,8 @@ const productSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+handleSlugs(productSchema);
 
 const Product = mongoose.model('Product', productSchema);
 
