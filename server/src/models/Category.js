@@ -13,6 +13,7 @@ const categorySchema = new mongoose.Schema(
       trim: true,
       require: true,
     },
+    slug: String,
     image: {
       type: String,
       require: true,
