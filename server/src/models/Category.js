@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const handleSlugs = require('./utils/slugify');
 
 const categorySchema = new mongoose.Schema(
   {
@@ -36,6 +37,8 @@ const categorySchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+handleSlugs(categorySchema);
 
 const Category = mongoose.model('Category', categorySchema);
 
