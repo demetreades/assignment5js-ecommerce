@@ -11,7 +11,7 @@ const {
 router
   .route('/')
   .get(getProducts)
-  .post(protect, createProduct);
+  .post(protect, admin, createProduct);
 
 router
   .route('/:product_id')
