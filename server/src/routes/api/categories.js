@@ -3,14 +3,16 @@ const { protect, admin } = require('../../utils');
 const {
   getCategories,
   getCategoryById,
+  createCategory,
 } = require('../../controllers/categories');
 
 router
   .route('/')
-  .get(protect, admin, getCategories);
+  .get(getCategories)
+  .post(protect, admin, createCategory);
 
 router
   .route('/:category_id')
-  .get(protect, admin, getCategoryById);
+  .get(getCategoryById);
 
 module.exports = router;
