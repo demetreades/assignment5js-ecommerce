@@ -49,7 +49,7 @@ const productSchema = mongoose.Schema(
     },
     inStock: {
       type: Number,
-      min: 0,
+      min: [0, 'Only positive values allowed'],
       default: 0,
     },
     isActive: {
