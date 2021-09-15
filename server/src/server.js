@@ -10,15 +10,21 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 const databaseConnection = require('./config/database/connection');
-const { logger, handleError, handleNotFound, handleExit } = require('./utils');
+const {
+  logger,
+  handleError,
+  handleNotFound,
+  handleExit,
+  handleMongoErrors,
+} = require('./utils');
 
 const routes = require('./routes'); // routes/api/
 
 databaseConnection();
 
-// bodyParser ?? express.json
+// fileupload ?? multer
 // pino/morgan log.file
-// fileupload
+// compression
 // xss
 // hpp : http param pollution
 // limiter : rate limiting
@@ -30,7 +36,7 @@ databaseConnection();
 //     : 'http://localhost:3000';
 
 const corsOptions = {
-  origin: 'http://localhost:5000/',
+  origin: 'http://localhost:3000/',
   optionsSuccessStatus: 200,
 };
 
@@ -69,6 +75,7 @@ app.use(helmet());
 app.use(routes, handleNotFound);
 
 app.use(handleExit);
+app.use(handleMongoErrors);
 app.use(handleError);
 
 const PORT = process.env.PORT || 5000;
@@ -88,3 +95,5 @@ server.listen(PORT, () => {
   process.on('uncaughtException', handleExit('uncaughtException'));
   process.on('uncaughtRejection', handleExit('uncaughtRejection'));
 });
+
+/// eooooo
