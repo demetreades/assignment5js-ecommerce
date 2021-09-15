@@ -5,23 +5,26 @@ const categorySchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
       ref: 'User',
+      required: true,
     },
     name: {
       type: String,
+      unique: true,
       trim: true,
-      require: true,
+      maxlength: [32, 'Name must be shorter than 32 characters'],
+      require: [true, 'Name is required'],
     },
     slug: String,
     image: {
       type: String,
-      require: true,
+      default: '/kapio/default',
     },
     description: {
       type: String,
       trim: true,
-      require: true,
+      maxlength: [500, 'Description must be shorter than 500 characters'],
+      require: [true, 'Description is required'],
     },
     isActive: {
       type: Boolean,
@@ -40,6 +43,13 @@ const categorySchema = new mongoose.Schema(
 );
 
 handleSlugs(categorySchema);
+
+// categorySchema.virtual('products', {
+//   ref: 'Product',
+//   localField: '_id',
+//   foreignField: 'category',
+//   justOne: false,
+// });
 
 const Category = mongoose.model('Category', categorySchema);
 

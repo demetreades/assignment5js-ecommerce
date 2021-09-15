@@ -10,7 +10,10 @@ const productSchema = mongoose.Schema(
     },
     name: {
       type: String,
-      require: [true, 'Please add a name'],
+      trim: true,
+      required: [true, 'Name is required'],
+      minlength: [1, 'Name must be at least 1 character'],
+      maxlength: [64, 'Name must be shorter than 64 characters'],
     },
     slug: String,
     image: {
@@ -19,34 +22,34 @@ const productSchema = mongoose.Schema(
     },
     category: {
       type: String,
-      required: true,
+      trim: true,
+      required: [true, 'Category is required'],
     },
     // category: {
     //   type: mongoose.Schema.Types.ObjectId,
-    //   required: true,
+    //   required: [true, 'Category is required'],
     //   ref: 'Category',
     // },
     brand: {
       type: String,
-      require: true,
+      required: [true, 'Brand is required'],
+      minlength: [1, 'Brand must be at least 1 character'],
+      maxlength: [32, 'Brand must be shorter than 32 characters'],
     },
     description: {
       type: String,
-      require: true,
-    },
-    rating: {
-      type: Number,
-      require: true,
-      default: 0,
+      trim: true,
+      maxlength: [500, 'Description must be shorter than 500 characters'],
     },
     price: {
       type: Number,
-      require: true,
-      default: 0,
+      trim: true,
+      required: [true, 'Price is required'],
+      min: [0, 'Only positive values allowed'],
     },
     inStock: {
       type: Number,
-      require: true,
+      min: 0,
       default: 0,
     },
     isActive: {
