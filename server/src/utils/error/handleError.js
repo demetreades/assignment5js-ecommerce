@@ -6,11 +6,10 @@ const handleError = (err, req, res, next) => {
     `[Error: ${statusCode}] [${new Date().toISOString()}] :: ${message}`
   );
   logger.error(`${err.stack}`);
-  res.status(statusCode || 500);
-  res.json({
+  res.status(statusCode || 500).json({
     success: false,
     statusCode,
-    message,
+    error: message,
     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   });
 };
