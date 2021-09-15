@@ -9,7 +9,10 @@ const { Category } = require('../../../models');
  * @access       Private/Admin
  */
 const getCategories = asyncHandler(async (req, res) => {
-  const categories = await Category.find({});
+  const categories = await Category.find({}).populate({
+    path: 'products',
+    select: '_id name price description',
+  });
 
   logger.info(`GET ALL ${categories.length} CATEGORIES`);
   res.json({

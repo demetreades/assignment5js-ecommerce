@@ -5,12 +5,15 @@ const { Category } = require('../../../models');
 
 /**
  * @description  Fetch single category
- * @route        GET /api/cateogies/:category_id
+ * @route        GET /api/categories/:category_id
  * @access       Public
  */
 const getCategoryById = asyncHandler(async (req, res, next) => {
   const { category_id } = req.params;
-  const fetchCategory = await Category.findById(category_id);
+  const fetchCategory = await Category.findById(category_id).populate({
+    path: 'products',
+    select: '_id name price description',
+  });
 
   if (!fetchCategory) {
     return next(
