@@ -18,7 +18,7 @@ const createCategory = asyncHandler(async (req, res) => {
   res.status(CREATED).json({
     success: true,
     message: 'new category created',
-    newCategory, // 201 giati einai resource
+    newCategory,
   });
 });
 
