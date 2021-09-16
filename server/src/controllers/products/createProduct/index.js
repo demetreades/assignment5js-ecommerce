@@ -16,7 +16,7 @@ const createProduct = asyncHandler(async (req, res) => {
   res.status(CREATED).json({
     success: true,
     message: 'new product created',
-    newProduct, // 201 giati einai resource
+    newProduct,
   });
 });
 
