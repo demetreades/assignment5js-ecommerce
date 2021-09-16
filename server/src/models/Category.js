@@ -18,7 +18,7 @@ const categorySchema = new mongoose.Schema(
     slug: String,
     image: {
       type: String,
-      default: '/kapio/default',
+      default: '/img/categories/default_cat.jpg',
     },
     description: {
       type: String,
