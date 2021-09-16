@@ -10,26 +10,26 @@ const { Category } = require('../../../models');
  */
 const addToCategory = asyncHandler(async (req, res, next) => {
   const { category_id, product_id } = req.body;
-  const fetchCategory = await Category.findByIdAndUpdate(category_id, {
-    $addToSet: { products: product_id },
+  const modifiedCategory = await Category.findByIdAndUpdate(category_id, {
+    $addToSet: { products: product_id }, // ? $push
   }).populate({
     path: 'products',
     select: '_id name price',
   });
 
-  if (!fetchCategory) {
+  if (!modifiedCategory) {
     return next(
       new BaseError(404, `Category with id: ${category_id} not found`)
     );
   }
 
   logger.info(
-    `GET Category: ${fetchCategory.name}, ID: ${fetchCategory._id}, DESC: ${fetchCategory.description}, PRODUCTS: ${fetchCategory.products}`
+    `GET Category: ${modifiedCategory.name}, ID: ${modifiedCategory._id}, DESC: ${modifiedCategory.description}, PRODUCTS: ${modifiedCategory.products}`
   );
 
   res.status(200).json({
     success: true,
-    fetchCategory,
+    modifiedCategory,
   });
 });
 
