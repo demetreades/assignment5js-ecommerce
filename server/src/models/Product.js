@@ -18,12 +18,12 @@ const productSchema = mongoose.Schema(
     slug: String,
     image: {
       type: String,
-      default: '/kapio/default',
+      default: '/img/products/default_prod.jpg',
     },
     category: {
       type: String,
       trim: true,
-      required: [true, 'Category is required'],
+      // required: [true, 'Category for product is required'], // fix: uncomment for import
     },
     // category: {
     //   type: mongoose.Schema.Types.ObjectId,
