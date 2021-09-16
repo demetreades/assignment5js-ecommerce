@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 // const fileUpload = require('express-fileupload');
 const helmet = require('helmet');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const compression = require('compression');
 const databaseConnection = require('./config/database/connection');
 const {
   logger,
@@ -37,8 +39,18 @@ databaseConnection();
 
 const corsOptions = {
   origin: 'http://localhost:3000/',
+};
+
+const isProduction = process.env.NODE_ENV === 'production';
+const origin = {
+  origin: isProduction ? 'https://www.deployment-url.com' : '*',
   optionsSuccessStatus: 200,
 };
+
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 25, // 5 requests,
+});
 
 const app = express();
 
@@ -69,8 +81,10 @@ if (process.env.NODE_ENV === 'production') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // application/x-www-form-urlencoded
 app.use(cookieParser());
-app.use(cors(corsOptions));
+app.use(cors(origin));
+app.use(compression());
 app.use(helmet());
+app.use(limiter);
 
 app.use(routes, handleNotFound);
 
