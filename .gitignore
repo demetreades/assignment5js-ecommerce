@@ -18,6 +18,9 @@ yarn-error.log*
 md
 
 
+#MD
+NOTES.md
+
 #models
 /src/models/_OTHER
 
