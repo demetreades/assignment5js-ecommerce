@@ -1,14 +1,14 @@
 {
-  "name": "ecommerce-mern",
+  "name": "assignment5js-ecommerce",
   "version": "0.2.0",
   "description": "ecommerce fullstack application with MERN stack",
-  "homepage": "https://github.com/demetreades/ecommerce-mern#readme",
+  "homepage": "https://github.com/demetreades/assignment5js-ecommerce#readme",
   "bugs": {
-    "url": "https://github.com/demetreades/ecommerce-mern/issues"
+    "url": "https://github.com/demetreades/assignment5js-ecommerce/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/demetreades/ecommerce-mern.git"
+    "url": "git+https://github.com/demetreades/assignment5js-ecommerce.git"
   },
   "license": "ISC",
   "author": "trainero",
